@@ -30,3 +30,17 @@ for (folder in list.files("allocation", full.names = TRUE)) {
   allocation <- sample(list.files("input/submissions/", full.names = TRUE), 5)
   file.copy(allocation, folder)
 }
+
+# Put in a csv for each person to give their rankings
+for (folder in list.files("allocation", full.names = TRUE)) {
+  print(folder)
+  allocated <- str_split_i(list.files(folder), "\\.", 1)
+  write_csv(
+    tibble(
+      allocated = allocated,
+      ranking = rep(0, 5)
+    ),
+    paste0(folder, "/RANKING_FORM.CSV")
+  )
+}
+
