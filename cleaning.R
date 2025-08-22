@@ -24,3 +24,9 @@ file.rename(
 sapply(participants$id_number, function(id) {
   dir.create(file.path("allocation", id), showWarnings = FALSE)
 })
+
+# Sample five files from the input pool
+for (folder in list.files("allocation", full.names = TRUE)) {
+  allocation <- sample(list.files("input/submissions/", full.names = TRUE), 5)
+  file.copy(allocation, folder)
+}
