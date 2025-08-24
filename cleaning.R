@@ -34,7 +34,7 @@ for (folder in list.files("allocation", full.names = TRUE)) {
 # Put in a csv for each person to give their rankings
 for (folder in list.files("allocation", full.names = TRUE)) {
   print(folder)
-  allocated <- str_split_i(list.files(folder), "\\.", 1)
+  allocated <- str_split_i(list.files(folder), "\\.", 1)[!grepl("RANKING_FORM", str_split_i(list.files(folder), "\\.", 1))]
   write_csv(
     tibble(
       allocated = allocated,
@@ -44,3 +44,9 @@ for (folder in list.files("allocation", full.names = TRUE)) {
   )
 }
 
+# Checking there aren't wildly uneven counts
+str_split_i(list.files("allocation", recursive = TRUE), "/", 2) %>%
+  as_tibble() %>%
+  filter(value != "RANKING_FORM.CSV") %>%
+  summarise(cnt = n(), .by = value) %>%
+  filter(cnt < 5 | cnt > 8)
