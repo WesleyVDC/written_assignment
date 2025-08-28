@@ -49,4 +49,4 @@ str_split_i(list.files("allocation", recursive = TRUE), "/", 2) %>%
   as_tibble() %>%
   filter(value != "RANKING_FORM.CSV") %>%
   summarise(cnt = n(), .by = value) %>%
-  filter(cnt < 5 | cnt > 8)
+  filter(cnt < 5 | cnt > 5)
